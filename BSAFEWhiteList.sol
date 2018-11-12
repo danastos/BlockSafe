@@ -1,4 +1,4 @@
-
+pragma solidity ^ 0.4 .25;
 
 contract BSAFEWhiteList  {
     
@@ -7,6 +7,12 @@ contract BSAFEWhiteList  {
     mapping ( address => bool ) public whitelist;
     mapping ( address => bool ) public blacklist;
     
+    event AddressWhiteListed(address _whitelisted);
+    event AddressDeWhiteListed(address _dewhitelisted);
+    event AddressBlackListed(address _blacklisted);
+    event AddressDeBlackListed(address _dewhitelisted);
+    
+    
     
     modifier onlyOwner {
 		require( msg.sender == owner );
@@ -14,7 +20,7 @@ contract BSAFEWhiteList  {
 	}
     
    
-    function BSAFEWhiteList(){
+    function constructor(){
         
         owner = msg.sender;
         
@@ -24,6 +30,7 @@ contract BSAFEWhiteList  {
    function whitelistAddress( address _address ) public onlyOwner{
        
        whitelist[ _address ] = true;
+       emit AddressWhiteListed( _address);
        
        
    }
@@ -32,7 +39,7 @@ contract BSAFEWhiteList  {
    function blacklistAddress( address _address ) public onlyOwner{
        
        blacklist[ _address ] = true;
-       
+       emit AddressBlackListed( _address);
        
    }
    
@@ -40,6 +47,7 @@ contract BSAFEWhiteList  {
    function dewhitelistAddress( address _address ) public onlyOwner{
        
        whitelist[ _address ] = false;
+       emit AddressDeWhiteListed( _address);
        
        
    }
@@ -48,6 +56,7 @@ contract BSAFEWhiteList  {
    function deblacklistAddress( address _address ) public onlyOwner{
        
        blacklist[ _address ] = false;
+       emit AddressDeBlackListed( _address);
        
        
    }
